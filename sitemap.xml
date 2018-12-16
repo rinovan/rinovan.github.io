@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://rinovan.github.io/posts/spirograph/</loc>
+    <lastmod>2018-12-16T18:31:25+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://rinovan.github.io/about/</loc>
     <lastmod>2018-11-25T18:48:08+01:00</lastmod>
   </url>
@@ -14,7 +19,13 @@
   
   <url>
     <loc>http://rinovan.github.io/</loc>
-    <lastmod>2018-11-25T18:48:08+01:00</lastmod>
+    <lastmod>2018-12-16T18:31:25+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://rinovan.github.io/posts/</loc>
+    <lastmod>2018-12-16T18:31:25+01:00</lastmod>
     <priority>0</priority>
   </url>
   

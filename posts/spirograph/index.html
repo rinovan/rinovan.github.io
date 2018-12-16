@@ -3,8 +3,8 @@
 <head>
   
   <meta charset="utf-8">
-  <title>Inovan Notebook</title>
-  <meta name="description" content="Inovan Notebook">
+  <title>Spirograph</title>
+  <meta name="description" content="Spirograph">
   <meta name="author" content="">
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -337,8 +337,6 @@ body {
 
   
   
-  <link href="http://rinovan.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Inovan Notebook Feed" />
-  
 
   <meta name="generator" content="Hugo 0.40.1" />
 
@@ -378,42 +376,158 @@ body {
 
 <div class="pure-g">
   <div class="pure-u-1-24 pure-u-md-5-24"></div>
-	<div class="pure-u-11-12 pure-u-md-7-12">
-	<div class="post-content">
+  <div class="pure-u-11-12 pure-u-md-7-12">
+    <div class="post">
+
+      <div class="post-title">
+        <p class="footnote">
+          <time datetime="2018-12-16 18:31:25 &#43;0100 STD">
+            
+              12-16-2018
+            
+          </time>
+        
+        
+        
+
+        
+
+        
+        </p>
+        <h1>Spirograph</h1>
+      </div>
+
+      <div class="post-content">
+        <p>Sewaktu saya masih kecil dulu, salah satu mainan favorit saya adalah uter-uteran. Jadi itu semacam sepasang lingkaran bergerigi, ada lingkaran besar dan lingkaran kecil.
+Di sisi dalam lingkaran besar dan sisi luar lingkaran kecil ada sisi bergerigi. Jadi lingkaran kecilnya bisa diputar didalam lingkaran besar.
+Jika kita memasukkan ujung pensil ke dalam salah satu lubang di lingkaran kecil, kita bisa menghasilkan pola yang menarik di kertas.
+Waktu saya kecil dulu, kalau ada anak yang penggarisnya ada uter-uterannya bakal pamer ke teman-temannya di TPQ.</p>
+
+<p>Kira-kira bentuknya seperti ini:</p>
+
+
+<figure>
+    
+        <img src="/img/Spirograph.jpg" alt="Contoh Spirograph, ah kenangan masa muda" />
+    
+    
+    <figcaption>
+        <p>
+        Contoh Spirograph, ah kenangan masa muda
+        <a href="https://commons.wikimedia.org/wiki/File:Spirograph.jpg"> 
+            (I, Alexei Kouprianov, Spirograph, CC BY-SA 3.0)
+        </a> 
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>Beberapa hari terakhir, entah kenapa saya jadi agak pengin nostalgia main kayak gitu lagi. Sayangnya, ternyata nama mainan itu bukan &ldquo;uter-uteran&rdquo;, jadi waktu saya cari di google yang
+ketemu malah artikal tentang uterus. Ternyata nama resminya adalah Spirograph.
+Mendengar namanya yang kedengaran wow, saya agaknya paham kenapa anak-anak TPQ lebih milih nyebut itu &ldquo;uter-uteran&rdquo;.
+Lebih kerennya lagi, ternyata versi sepasang lingkaran yang saya sering liat dulu itu cuma versi paling dasar, jadi sebenarnya ada versi-versi lain yang menggunakan berbagai macam bentuk gerigi.</p>
+
+<p>Yang menarik, sebenarnya pola yang dibentuk oleh Spirograph lingkaran itu juga punya nama resmi dalam matematika, yaitu hypercycloid dan hypocycloid.
+Jadi hypercycloid dan hypocycloid itu adalah sebutan untuk kurva yang dibentuk oleh pergerakan sepasang lingkaran besar dan lingkaran kecil.
+Pola-pola unik yang kita lihat itu terbentuk dari perbedaan kecepatan lingkaran kecil dan lingkaran besar.
+Begitu dengar nama itu, saya jadi baru ingat kalau tidak salah ada salah satu exercise di buku kalkulusnya courant yang membahas tentang cycloid.</p>
+
+<p>Jadi kita bisa memparameterisasi pola yang dibentuk dalam koordinat kartesian terhadap waktu sebagai:
+$$
+x(t) = r_b\cos(\omega_b t) + r_k \cos(\omega_k t)
+$$
+$$
+y(t) = r_b\sin(\omega_b t) + r_k \sin(\omega_k t)
+$$
+Dimana \( r \) adalah jari-jari, \( \omega \) kecepaan sudut, subscript \( b \) untuk lingkaran yang dibentuk oleh pusat lingkaran kecil, dan subscript \( k \) untuk lingkaran yang bergerak.
+Kalau untuk pola yang mungkin dibentuk oleh spirograph di dunia nyata, jari-jari dan kecepatan sudut harus saling terkait agar kecepatan linear di titik kontak sama antara kedua lingkaran.
+Tapi kita bisa mendapatkan pola yang lebih banyak kalau kita tidak mengharuskan rasio jari-jari dan kecepatan sudut saling terkait.</p>
+
+<p>Melihat bentuk persamaannya yang tidak terlalu sulit, akhirnya saya bikin snippet kecil buat menggambar pola yang dibentuk oleh spirograph.</p>
+
+<div id="visualization" style="width:650px;margin:0 auto;background-color:#edf1f5;overflow:auto">
+<div id="input" style="float:left;display:inline;">
+<dl style="margin:50px 20px;">
+<dt> Radius Pusat (px): </dt> 
+<dd><input type="text" id="outerRad" value="75"> <br></dd>
+<dt>Radius Dalam (px):</dt> 
+<dd><input type="text" id="innerRad" value="75"> <br></dd>
+<dt>Rasio Rotasi :</dt> 
+<dd><input type="text" id="radRatio" value="10"> <br></dd>
+<dt>Jumlah Rotasi :</dt>
+<dd><input type="text" id="nRotation" value="10"> <br></dd>
+</div>
+<svg id="spirographCanvas" style="float:right;display:inline;"></svg>
+</div>
+
+<script src='https://d3js.org/d3.v4.min.js'></script>
+
+<script>
+(function(){
+	"use strict";
+	function buildSpirograph(centerX,centerY,outerRad,innerRad,speedDiff){
+		let calculateX = function(outDegree){
+			return centerX + outerRad*Math.cos(outDegree) + innerRad*Math.cos(outDegree*speedDiff);
+		};
+		let calculateY = function(outDegree){
+			return centerY + outerRad*Math.sin(outDegree) + innerRad*Math.sin(outDegree*speedDiff);
+		};
+		return d3.line().x(calculateX).y(calculateY).curve(d3.curveNatural);
+	}
 	
-	  <p class="posts-name">Recent posts:</p>
+	function stepArray(nRotation,nPoints){
+		let step = (nRotation*Math.PI)/nPoints;
+		let idx = [];
+		for(let i=0;i<nPoints;i++){
+			idx[i] = step*i;
+		}
+		return idx;
+	}
+	d3.selectAll("#input > dl > dt").style("color", "#4c6496").style("font-size","16px").style("font-weight",600);
+	d3.selectAll("#input > dl > dd").style("margin","0px 0px 15px 0px");
+	let currCanvas = d3.select("#spirographCanvas")
+	  .attr("height",400)
+	  .attr("width",400)
+	  .attr("fill", "#516a93");
+	
+	currCanvas.append("rect")
+	  .attr("height",400)
+	  .attr("width", 400);
+	  
+	function drawSpirograph(){
+		d3.select("#spirographDrawing").remove();
+		let outerRad = parseFloat(d3.select("#outerRad").node().value) || 100;
+		let innerRad = parseFloat(d3.select("#innerRad").node().value) || 100;
+		let radRatio = parseFloat(d3.select("#radRatio").node().value) || 10;
+		let nRotation = parseFloat(d3.select("#nRotation").node().value) || 2;
+		let spirograph1 = buildSpirograph(200,200,outerRad,innerRad,radRatio);
+		d3.select("#spirographCanvas").append("path").attr("id","spirographDrawing")
+			.attr("d",spirograph1(stepArray(nRotation,2000)))
+			.attr("stroke","white").attr("stroke-width",1).attr("stroke-opacity",0.5);
+	}
+	d3.select("#outerRad").on("input",drawSpirograph);
+	d3.select("#innerRad").on("input",drawSpirograph);
+	d3.select("#nRotation").on("input",drawSpirograph);
+	d3.select("#radRatio").on("input",drawSpirograph);
+	drawSpirograph();
+ })();
+</script>
 
-	  <ul class="posts">
-		
-		
-		
-		<li>
-		  
-		  <a class="post-list" href="http://rinovan.github.io/posts/spirograph/">Spirograph</a>
+<p>Dengan mengganti nilai-nilai disana, kita bisa mendapatkan berbagai bentuk cycloid. Beberapa nilai yang kayaknya menarik:</p>
 
-      <p class="footnote">
-        <time datetime="2018-12-16 18:31:25 &#43;0100 STD">
-          
-            12-16-2018
-          
-        </time>
+<ul>
+<li>Radius Pusat : 75 , Radius Dalam : 75 , Rasio Rotasi : 2.33 , Jumlah Rotasi : 120</li>
+<li>Radius Pusat : 75 , Radius Dalam : 75 , Rasio Rotasi : -2.33 , Jumlah Rotasi : 120</li>
+<li>Radius Pusat : 100 , Radius Dalam : 75 , Rasio Rotasi : 5.02 , Jumlah Rotasi : 250</li>
+<li>Radius Pusat : 100 , Radius Dalam : 70 , Rasio Rotasi : -5.02 , Jumlah Rotasi : 40</li>
+<li>Radius Pusat : 100 , Radius Dalam : 100 , Rasio Rotasi : 9.86 , Jumlah Rotasi : 100</li>
+</ul>
 
-        
+<p>Saya yakin masih banyak nilai lain dengan pola yang unik, tapi setidaknya ini sudah cukup buat bernostalgia.</p>
 
-        
-
-        
-
-        
-
-      </p>
-    </li>
-    
-    
-		
-    
-    </ul>
-  </div>
+      </div>
+    </div>
   </div>
   <div class="pure-u-1-24 pure-u-md-5-24"></div>
 </div>
@@ -436,7 +550,7 @@ body {
 
         </ul>
         <a href="#" class="pure-menu-link pull-right" id="gototop-btn">↑↑</a>
-        <a href="http://rinovan.github.io/index.xml" class="pure-menu-link pull-right">RSS</a>
+        <a href="" class="pure-menu-link pull-right">RSS</a>
       </div>
       
     </div>

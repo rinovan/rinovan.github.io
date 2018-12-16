@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Inovan Notebook</title>
-    <link>http://rinovan.github.io/</link>
-    <description>Recent content on Inovan Notebook</description>
+    <title>Posts on Inovan Notebook</title>
+    <link>http://rinovan.github.io/posts/</link>
+    <description>Recent content in Posts on Inovan Notebook</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 16 Dec 2018 18:31:25 +0100</lastBuildDate>
     
-	<atom:link href="http://rinovan.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://rinovan.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -18,16 +18,6 @@
       
       <guid>http://rinovan.github.io/posts/spirograph/</guid>
       <description>Sewaktu saya masih kecil dulu, salah satu mainan favorit saya adalah uter-uteran. Jadi itu semacam sepasang lingkaran bergerigi, ada lingkaran besar dan lingkaran kecil. Di sisi dalam lingkaran besar dan sisi luar lingkaran kecil ada sisi bergerigi. Jadi lingkaran kecilnya bisa diputar didalam lingkaran besar. Jika kita memasukkan ujung pensil ke dalam salah satu lubang di lingkaran kecil, kita bisa menghasilkan pola yang menarik di kertas. Waktu saya kecil dulu, kalau ada anak yang penggarisnya ada uter-uterannya bakal pamer ke teman-temannya di TPQ.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>http://rinovan.github.io/about/</link>
-      <pubDate>Sun, 25 Nov 2018 18:48:08 +0100</pubDate>
-      
-      <guid>http://rinovan.github.io/about/</guid>
-      <description>Saya Reka Inovan. Sejak tahun 2009, saya mendalami teknik elektro mulai dari S1 di Universitas Gadjah Mada dan S2 di Ecole Polytechnique Federale de Lausanne (EPFL). Saat ini saya sedang menjalani program doktoral di bidang teori informasi di EPFL. Di tahun pertama, saya masih dalam proses rotasi laboratorium.
-Mungkin jarang yang dengar tentang teori informasi. Secara garis besar kita mempelajari tentang batasan performa proses2 yang berhubungan dengan keacakan (komunikasi, pengolahan isyarat, dan estimasi).</description>
     </item>
     
   </channel>
